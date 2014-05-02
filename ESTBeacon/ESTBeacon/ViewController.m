@@ -14,16 +14,21 @@
 
 @implementation ViewController
 
+- (IBAction)unwingToStart:(UIStoryboardSegue *)segue
+{
+    //Unwind Segue
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewDidDisappear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    [super viewDidDisappear:animated];
 }
 
 @end

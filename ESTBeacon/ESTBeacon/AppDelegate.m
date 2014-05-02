@@ -7,13 +7,51 @@
 //
 
 #import "AppDelegate.h"
+#import <EstimoteSDK/ESTBeaconManager.h>
+#import "MonitoringViewController.h"
+#import "Monitoring.h"
+
+@interface AppDelegate  () <ESTBeaconManagerDelegate>
+
+@property (nonatomic, strong) Monitoring *monitoringClass;
+
+@property (nonatomic, strong) ESTBeacon *beacon;
+@property (nonatomic, strong) ESTBeaconManager *beaconManager;
+@property (nonatomic, strong) ESTBeaconRegion *beaconRegion;
+
+@end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    self.inRegion = NO;
+    
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
+    
+    self.monitoringClass = [[Monitoring alloc] init];
+    [self.monitoringClass initLocationManager];
+    
     return YES;
+}
+
+- (void)beaconManager:(ESTBeaconManager *)manager didDetermineState:(CLRegionState)state forRegion:(ESTBeaconRegion *)region
+{
+    NSLog(@"didDeterminateState inRegion : %d", self.inRegion);
+    if (state == CLRegionStateInside) {
+        self.inRegion = YES;
+    }
+    else if (state == CLRegionStateOutside)
+    {
+        self.inRegion = NO;
+    }
+    else
+    {
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshView" object:nil];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
