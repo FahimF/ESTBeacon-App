@@ -8,12 +8,15 @@
 
 #import "RangingViewController.h"
 #import <EstimoteSDK/ESTBeaconManager.h>
-#import <EstimoteSDK/ESTBeacon.h>
 
 @interface RangingViewController () <ESTBeaconManagerDelegate>
 
+@property (strong, nonatomic) IBOutlet UILabel *connectionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *beaconUUIDLabel;
 @property (strong, nonatomic) IBOutlet UILabel *beaconRangeLabel;
+
+@property (strong, nonatomic) IBOutlet UIButton *connectBT;
+@property (strong, nonatomic) IBOutlet UIButton *disconnectBT;
 
 @property (nonatomic, strong) ESTBeacon *beacon;
 @property (nonatomic, strong) ESTBeaconManager *beaconManager;
@@ -37,6 +40,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    /*Set labels and buttons*/
+    [self.connectBT setEnabled:NO];
+    [self.disconnectBT setEnabled:NO];
+    [self.connectionLabel setText:@"Not connected"];
+    [self.beaconUUIDLabel setText:@"No ranged Beacon"];
+    [self.beaconRangeLabel setText:@"Range : Status unknown"];
+    
     
     /*Alloc the UUID we would like to range/connect too*/
     NSUUID *UUID = [[NSUUID alloc] initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
@@ -65,23 +76,51 @@
     int i = 0;
     for (ESTBeacon* rangedBeacon in beacons) {
         if (rangedBeacon.proximity == CLProximityImmediate) {
-            NSLog(@"beacon %d : IMMEDIATE", i);
+            NSLog(@"beacon %d : IMMEDIATE", i);//TEST
+            [self.connectBT setEnabled:YES];
+            [self.beaconRangeLabel setText:@"Range : Immediate proximity"];
         }else if (rangedBeacon.proximity == CLProximityNear)
         {
-            NSLog(@"beacon %d : NEAR", i);
+            NSLog(@"beacon %d : NEAR", i);//TEST
+            [self.connectBT setEnabled:NO];
+            [self.beaconRangeLabel setText:@"Range : Near proximity"];
         }else if (rangedBeacon.proximity == CLProximityFar)
         {
-            NSLog(@"beacon %d : FAR", i);
+            NSLog(@"beacon %d : FAR", i);//TEST
+            [self.connectBT setEnabled:NO];
+            [self.beaconRangeLabel setText:@"Range : Far proximity"];
         }else
         {
-            NSLog(@"beacon %d : UNKNOWN", i);
+            NSLog(@"beacon %d : UNKNOWN", i);//TEST
+            [self.connectBT setEnabled:NO];
+            [self.beaconRangeLabel setText:@"Range : Status unknown"];
         }
         i++;
     }
     
     self.beaconsArray = beacons;
-    self.beacon = self.beaconsArray[0];
-    NSLog(@"beacon uuid : %@", self.beacon.proximityUUID);
+    if(self.beaconsArray.count != 0)
+    {
+      self.beacon = self.beaconsArray[0];
+    }
+    NSLog(@"beacon uuid : %@", self.beacon.proximityUUID);//TEST
+    
+    /*Set UUID Label*/
+    NSString *beaconUUIDString = [[NSString alloc] initWithFormat:@"%@", self.beacon.proximityUUID];
+    [self.beaconUUIDLabel setText:beaconUUIDString];
+    
+    /*If not connected to any beacon, disable disconnect button and set the connection label*/
+    if (self.beacon.isConnected == NO)
+    {
+        [self.disconnectBT setEnabled:NO];
+        [self.connectionLabel setText:@"Not connected"];
+    }/*If connected to a beacon, set the connection label*/
+    else if (self.beacon.isConnected == YES)
+    {
+        [self.disconnectBT setEnabled:YES];
+        [self.connectionLabel setText:@"Is connected"];
+    }
+    
 }
 
 - (IBAction)connectBeacon:(id)sender
@@ -89,6 +128,7 @@
     /*Connect to ranged beacon*/
     [self.beacon connectToBeacon];
     
+    //TEST
     if (self.beacon.isConnected == YES)
     {
         NSLog(@"is connected");
@@ -104,6 +144,8 @@
 {
     /*Disconnect from Beacon when Button is pressed*/
     [self.beacon disconnectBeacon];
+    
+    //TEST
     if (self.beacon.isConnected == YES)
     {
         NSLog(@"is connected");

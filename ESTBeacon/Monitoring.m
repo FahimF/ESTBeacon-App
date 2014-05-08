@@ -11,6 +11,9 @@
 
 @interface Monitoring () <ESTBeaconManagerDelegate>
 
+@property ESTBeaconManager *beaconManager;
+@property ESTBeaconRegion *beaconRegion;
+
 @end
 
 @implementation Monitoring
@@ -19,11 +22,13 @@
 {
     NSUUID *UUID = [[NSUUID alloc] initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
     
-//    self.beaconManager = [[ESTBeaconManager alloc] init];
-//    self.beaconManager.delegate = self;
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
     
-//    self.beaconRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:UUID identifier:@"EstimoteUUID"];
-//    [self.beaconManager startMonitoringForRegion:_beaconRegion];
+    self.beaconRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:UUID identifier:@"EstimoteUUID"];
+    [self.beaconManager startMonitoringForRegion:_beaconRegion];
 }
+
+
 
 @end

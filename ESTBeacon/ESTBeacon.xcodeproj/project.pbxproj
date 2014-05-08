@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1005584564E74E35A83817B6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B4AAD3FDD04CCB977A974F /* libPods.a */; };
 		3E4D32B41912211600F9721B /* RangingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D32B31912211600F9721B /* RangingViewController.m */; };
-		3E4D32B71912212500F9721B /* MonitoringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D32B61912212500F9721B /* MonitoringViewController.m */; };
 		3E4D32BA1912737C00F9721B /* Monitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4D32B91912737C00F9721B /* Monitoring.m */; };
 		3E7AD8021910FCB300C98F73 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7AD8011910FCB300C98F73 /* CoreLocation.framework */; };
 		3E7AD8041910FCB900C98F73 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E7AD8031910FCB900C98F73 /* CoreBluetooth.framework */; };
@@ -43,8 +42,6 @@
 		36B4AAD3FDD04CCB977A974F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E4D32B21912211600F9721B /* RangingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RangingViewController.h; sourceTree = "<group>"; };
 		3E4D32B31912211600F9721B /* RangingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RangingViewController.m; sourceTree = "<group>"; };
-		3E4D32B51912212500F9721B /* MonitoringViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoringViewController.h; sourceTree = "<group>"; };
-		3E4D32B61912212500F9721B /* MonitoringViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonitoringViewController.m; sourceTree = "<group>"; };
 		3E4D32B81912737C00F9721B /* Monitoring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Monitoring.h; path = ../Monitoring.h; sourceTree = "<group>"; };
 		3E4D32B91912737C00F9721B /* Monitoring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Monitoring.m; path = ../Monitoring.m; sourceTree = "<group>"; };
 		3E7AD8011910FCB300C98F73 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -144,8 +141,6 @@
 				3EF78653190FB08A00038710 /* ViewController.m */,
 				3E4D32B21912211600F9721B /* RangingViewController.h */,
 				3E4D32B31912211600F9721B /* RangingViewController.m */,
-				3E4D32B51912212500F9721B /* MonitoringViewController.h */,
-				3E4D32B61912212500F9721B /* MonitoringViewController.m */,
 				3EF78655190FB08A00038710 /* Images.xcassets */,
 				3EF78644190FB08A00038710 /* Supporting Files */,
 			);
@@ -316,7 +311,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E4D32B71912212500F9721B /* MonitoringViewController.m in Sources */,
 				3E4D32BA1912737C00F9721B /* Monitoring.m in Sources */,
 				3EF78654190FB08A00038710 /* ViewController.m in Sources */,
 				3EF7864E190FB08A00038710 /* AppDelegate.m in Sources */,

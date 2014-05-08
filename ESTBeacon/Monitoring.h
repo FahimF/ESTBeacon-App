@@ -6,13 +6,10 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <ESTBeacon.h>
 
 @interface Monitoring : NSObject
-
-//@property ESTBeaconManager *beaconManager;
-//@property ESTBeaconRegion *beaconRegion;
 
 - (void)initLocationManager;
 
