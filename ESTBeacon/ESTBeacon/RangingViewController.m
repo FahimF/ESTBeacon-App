@@ -12,8 +12,8 @@
 @interface RangingViewController () <ESTBeaconManagerDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *connectionLabel;
-@property (strong, nonatomic) IBOutlet UILabel *beaconUUIDLabel;
 @property (strong, nonatomic) IBOutlet UILabel *beaconRangeLabel;
+@property (strong, nonatomic) IBOutlet UITextView *UUIDText;
 
 @property (strong, nonatomic) IBOutlet UIButton *connectBT;
 @property (strong, nonatomic) IBOutlet UIButton *disconnectBT;
@@ -45,7 +45,7 @@
     [self.connectBT setEnabled:NO];
     [self.disconnectBT setEnabled:NO];
     [self.connectionLabel setText:@"Not connected"];
-    [self.beaconUUIDLabel setText:@"No ranged Beacon"];
+    [self.UUIDText setText:@"No ranged Beacon"];
     [self.beaconRangeLabel setText:@"Range : Status unknown"];
     
     
@@ -58,7 +58,7 @@
     //    self.beaconManager.avoidUnknowsnStateBeacons = YES;
     
     /*Init region & start ranging : ranging is necessary to connect to the ranged beacon!*/
-    self.beaconRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:UUID identifier:@"EstimoteUUID"];
+    self.beaconRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:UUID identifier:@"ProximityUUID"];
     [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
 }
 
@@ -109,7 +109,7 @@
     
     /*Set UUID Label*/
     NSString *beaconUUIDString = [[NSString alloc] initWithFormat:@"%@", self.beacon.proximityUUID];
-    [self.beaconUUIDLabel setText:beaconUUIDString];
+    [self.UUIDText setText:beaconUUIDString];
     
     /*If not connected to any beacon, disable disconnect button and set the connection label*/
     if (self.beacon.isConnected == NO)
@@ -124,7 +124,7 @@
     }
 }
 
-#pragma connection actions
+#pragma Connection
 
 /*Connect to a Beacon when pressing a button*/
 - (IBAction)connectBeacon:(id)sender
@@ -142,7 +142,61 @@
     [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
 }
 
-- (IBAction)getValues:(id)sender
+#pragma UUID
+
+- (IBAction)getProximityUUID:(id)sender
+{
+    [self.beacon readBeaconProximityUUIDWithCompletion:^(NSString *UUID, NSError *error){
+        NSLog(@"UUID : %@", self.beacon.proximityUUID);
+    }];
+}
+
+- (IBAction)setProximityUUID:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon writeBeaconProximityUUID:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D" withCompletion:nil];
+    }
+}
+
+#pragma Major
+
+- (IBAction)getMajor:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon readBeaconMajorWithCompletion:^(unsigned short Major, NSError *error){
+            NSLog(@"Major : %@", self.beacon.major);
+        }];
+    }
+}
+
+- (IBAction)setMajor:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon writeBeaconMajor:0 withCompletion:nil];
+    }
+}
+
+#pragma Minor
+
+- (IBAction)getMinor:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon readBeaconMinorWithCompletion:^(unsigned short Minor, NSError *error){
+            NSLog(@"Minor : %@", self.beacon.minor);
+        }];
+    }
+}
+
+- (IBAction)setMinor:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon writeBeaconMinor:0 withCompletion:nil];
+    }
+}
+
+#pragma AdvInterval
+
+- (IBAction)getInterval:(id)sender
 {
     /*Stop ranging*/
     [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
@@ -152,7 +206,6 @@
         [self.beacon readBeaconAdvIntervalWithCompletion:^(unsigned short AdvInterval, NSError *error) {
             NSLog(@"Adv interval : %@", self.beacon.advInterval);
         }];
-//        [self.beacon readBeaconPowerWithCompletion:<#^(ESTBeaconPower value, NSError *error)completion#>]
     }
     else if (self.beacon.isConnected == NO)
     {
@@ -160,14 +213,11 @@
     }
 }
 
-- (IBAction)setValues:(id)sender
+- (IBAction)setInterval:(id)sender
 {
-    /*Stop ranging*/
-    [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
-    
     /*If connected, set some Beacon values*/
     if (self.beacon.isConnected == YES) {
-        [self.beacon writeBeaconAdvInterval:1000 withCompletion:nil];
+        [self.beacon writeBeaconAdvInterval:500 withCompletion:nil];
     }
     else if (self.beacon.isConnected == NO)
     {
@@ -175,5 +225,70 @@
     }
 }
 
+#pragma Power
+
+- (IBAction)getPower:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon readBeaconPowerWithCompletion:^(ESTBeaconPower Power, NSError *error){
+            NSLog(@"Power : %@", self.beacon.power);
+        }];
+    }
+}
+
+- (IBAction)setPower:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon writeBeaconPower:0 withCompletion:nil];
+    }
+}
+
+#pragma Battery
+
+- (IBAction)getBattery:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon readBeaconBatteryWithCompletion:^(unsigned short Battery, NSError *error) {
+            NSLog(@"Battery level : %@", self.beacon.batteryLevel);
+        }];
+    }
+}
+
+#pragma Firmware
+
+- (IBAction)getFirmware:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon readBeaconFirmwareVersionWithCompletion:^(NSString *firmware, NSError *error){
+            NSLog(@"Firmware : %@", self.beacon.firmwareVersion);
+        }];
+    }
+}
+
+- (IBAction)checkFirmwareUpdate:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon checkFirmwareUpdateWithCompletion:^(BOOL updateAvailable, ESTBeaconUpdateInfo *updateInfo, NSError *error){
+            NSLog(@"Firmware update available : %d", self.beacon.firmwareState);
+            NSLog(@"Firmware update info : %d", self.beacon.firmwareUpdateInfo);
+        }];
+    }
+}
+
+- (IBAction)updateFirmware:(id)sender
+{
+    
+}
+
+#pragma Hardware
+
+- (IBAction)getHardware:(id)sender
+{
+    if (self.beacon.isConnected == YES) {
+        [self.beacon readBeaconHardwareVersionWithCompletion:^(NSString *Hardware, NSError *error){
+            NSLog(@"Hardware : %@", self.beacon.hardwareVersion);
+        }];
+    }
+}
 
 @end
