@@ -71,6 +71,8 @@
     [super viewDidDisappear:animated];
 }
 
+#pragma ranging
+
 - (void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region
 {
     int i = 0;
@@ -120,41 +122,58 @@
         [self.disconnectBT setEnabled:YES];
         [self.connectionLabel setText:@"Is connected"];
     }
-    
 }
 
+#pragma connection actions
+
+/*Connect to a Beacon when pressing a button*/
 - (IBAction)connectBeacon:(id)sender
 {
     /*Connect to ranged beacon*/
     [self.beacon connectToBeacon];
-    
-    //TEST
-    if (self.beacon.isConnected == YES)
-    {
-        NSLog(@"is connected");
-    }else if (self.beacon.isConnected == YES)
-    {
-        NSLog(@"is NOT connected");
-    }
-    
 }
 
-
+/*Disconnect from a Beacon when pressing a button*/
 - (IBAction)disconnectBeacon:(id)sender
 {
     /*Disconnect from Beacon when Button is pressed*/
     [self.beacon disconnectBeacon];
+    /*Start ranging again*/
+    [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
+}
+
+- (IBAction)getValues:(id)sender
+{
+    /*Stop ranging*/
+    [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
     
-    //TEST
-    if (self.beacon.isConnected == YES)
+    /*If connected, get some Beacon values*/
+    if (self.beacon.isConnected == YES) {
+        [self.beacon readBeaconAdvIntervalWithCompletion:^(unsigned short AdvInterval, NSError *error) {
+            NSLog(@"Adv interval : %@", self.beacon.advInterval);
+        }];
+//        [self.beacon readBeaconPowerWithCompletion:<#^(ESTBeaconPower value, NSError *error)completion#>]
+    }
+    else if (self.beacon.isConnected == NO)
     {
-        NSLog(@"is connected");
-    }else if (self.beacon.isConnected == YES)
-    {
-       NSLog(@"is NOT connected");
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
     }
 }
 
+- (IBAction)setValues:(id)sender
+{
+    /*Stop ranging*/
+    [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
+    
+    /*If connected, set some Beacon values*/
+    if (self.beacon.isConnected == YES) {
+        [self.beacon writeBeaconAdvInterval:1000 withCompletion:nil];
+    }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
+    }
+}
 
 
 @end
