@@ -50,6 +50,7 @@
     
     
     /*Alloc the UUID we would like to range/connect too*/
+//    E2C56DB5-DFFB-48D2-B060-D0F5A71096E0
     NSUUID *UUID = [[NSUUID alloc] initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
     
     /*Create manager instance*/
@@ -154,7 +155,12 @@
 - (IBAction)setProximityUUID:(id)sender
 {
     if (self.beacon.isConnected == YES) {
+//        B9407F30-F5F8-466E-AFF9-25556B57FE6D
         [self.beacon writeBeaconProximityUUID:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D" withCompletion:nil];
+    }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
     }
 }
 
@@ -167,12 +173,20 @@
             NSLog(@"Major : %@", self.beacon.major);
         }];
     }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
+    }
 }
 
 - (IBAction)setMajor:(id)sender
 {
     if (self.beacon.isConnected == YES) {
         [self.beacon writeBeaconMajor:0 withCompletion:nil];
+    }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
     }
 }
 
@@ -185,12 +199,20 @@
             NSLog(@"Minor : %@", self.beacon.minor);
         }];
     }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
+    }
 }
 
 - (IBAction)setMinor:(id)sender
 {
     if (self.beacon.isConnected == YES) {
-        [self.beacon writeBeaconMinor:0 withCompletion:nil];
+        [self.beacon writeBeaconMinor:2 withCompletion:nil];
+    }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
     }
 }
 
@@ -234,12 +256,20 @@
             NSLog(@"Power : %@", self.beacon.power);
         }];
     }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
+    }
 }
 
 - (IBAction)setPower:(id)sender
 {
     if (self.beacon.isConnected == YES) {
         [self.beacon writeBeaconPower:0 withCompletion:nil];
+    }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
     }
 }
 
@@ -252,6 +282,10 @@
             NSLog(@"Battery level : %@", self.beacon.batteryLevel);
         }];
     }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
+    }
 }
 
 #pragma Firmware
@@ -263,6 +297,10 @@
             NSLog(@"Firmware : %@", self.beacon.firmwareVersion);
         }];
     }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
+    }
 }
 
 - (IBAction)checkFirmwareUpdate:(id)sender
@@ -273,11 +311,35 @@
             NSLog(@"Firmware update info : %d", self.beacon.firmwareUpdateInfo);
         }];
     }
+    else if (self.beacon.isConnected == NO)
+    {
+        NSLog(@"Can't get any properties, your are not connected!");//TEST
+    }
+    
+    /*How to tell what is what with the NSLogs from "checkFirmwareUpdate":
+     * firmwareState :
+     *
+     *typedef enum : int
+     *{
+     *ESTBeaconFirmwareStateBoot, ==> NSLog output : 0
+     *ESTBeaconFirmwareStateApp   ==> NSLog output : 1
+     *} ESTBeaconFirmwareState;
+     *
+     * firmwareUpdateInfo :
+     *
+     *typedef enum : int
+     *{
+     *ESTBeaconFirmwareUpdateNone,         ==> NSLog output : 0
+     *ESTBeaconFirmwareUpdateAvailable,    ==> NSLog output : 1
+     *ESTBeaconFirmwareUpdateNotAvailable  ==> NSLog output : 2
+     *} ESTBeaconFirmwareUpdate;
+     *
+     */
 }
 
 - (IBAction)updateFirmware:(id)sender
 {
-    
+    #warning TODO (updateFirmware:)
 }
 
 #pragma Hardware
