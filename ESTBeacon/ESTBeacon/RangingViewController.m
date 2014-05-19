@@ -50,7 +50,7 @@
     
     
     /*Alloc the UUID we would like to range/connect too*/
-//    E2C56DB5-DFFB-48D2-B060-D0F5A71096E0
+    
     NSUUID *UUID = [[NSUUID alloc] initWithUUIDString:@"B9407F30-F5F8-466E-AFF9-25556B57FE6D"];
     
     /*Create manager instance*/
@@ -109,7 +109,7 @@
     NSLog(@"beacon uuid : %@", self.beacon.proximityUUID);//TEST
     
     /*Set UUID Label*/
-    NSString *beaconUUIDString = [[NSString alloc] initWithFormat:@"%@", self.beacon.proximityUUID];
+    NSString *beaconUUIDString = [[NSString alloc] initWithFormat:@"UUID : %@", self.beacon.proximityUUID];
     [self.UUIDText setText:beaconUUIDString];
     
     /*If not connected to any beacon, disable disconnect button and set the connection label*/
@@ -319,20 +319,20 @@
     /*How to tell what is what with the NSLogs from "checkFirmwareUpdate":
      * firmwareState :
      *
-     *typedef enum : int
-     *{
-     *ESTBeaconFirmwareStateBoot, ==> NSLog output : 0
-     *ESTBeaconFirmwareStateApp   ==> NSLog output : 1
-     *} ESTBeaconFirmwareState;
+     * typedef enum : int
+     * {
+     * ESTBeaconFirmwareStateBoot,             ==> NSLog output : 0
+     * ESTBeaconFirmwareStateApp               ==> NSLog output : 1
+     * } ESTBeaconFirmwareState;
      *
      * firmwareUpdateInfo :
      *
-     *typedef enum : int
-     *{
-     *ESTBeaconFirmwareUpdateNone,         ==> NSLog output : 0
-     *ESTBeaconFirmwareUpdateAvailable,    ==> NSLog output : 1
-     *ESTBeaconFirmwareUpdateNotAvailable  ==> NSLog output : 2
-     *} ESTBeaconFirmwareUpdate;
+     * typedef enum : int
+     * {
+     * ESTBeaconFirmwareUpdateNone,            ==> NSLog output : 0
+     * ESTBeaconFirmwareUpdateAvailable,       ==> NSLog output : 1
+     * ESTBeaconFirmwareUpdateNotAvailable     ==> NSLog output : 2
+     * } ESTBeaconFirmwareUpdate;
      *
      */
 }

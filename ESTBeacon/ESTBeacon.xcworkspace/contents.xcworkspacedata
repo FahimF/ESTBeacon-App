@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Monitoring.h">
-   </FileRef>
-   <FileRef
-      location = "group:Monitoring.m">
-   </FileRef>
-   <FileRef
       location = "group:ESTBeacon.xcodeproj">
    </FileRef>
    <FileRef

@@ -7,12 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import <EstimoteSDK/ESTBeaconManager.h>
-#import "Monitoring.h"
 
-@interface AppDelegate  () <ESTBeaconManagerDelegate>
 
-@property (nonatomic, strong) Monitoring *monitoringClass;
+@interface AppDelegate  ()
 
 @end
 
@@ -20,10 +17,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.inRegion = NO;
-    
-    self.monitoringClass = [[Monitoring alloc] init];
-    [self.monitoringClass initLocationManager];
     
     return YES;
 }
